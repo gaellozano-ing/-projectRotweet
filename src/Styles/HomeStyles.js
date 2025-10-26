@@ -21,4 +21,9 @@ export default StyleSheet.create({
   button: {
     borderRadius: 30,
   },
+  feedContainer: {
+  flex: 1,
+  marginTop: 10,
+},
+
 });
