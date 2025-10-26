@@ -12,7 +12,8 @@
   "pluginOptions": {},
   "attributes": {
     "username": {
-      "type": "string"
+      "type": "string",
+      "unique": true
     },
     "avatar": {
       "type": "media",
