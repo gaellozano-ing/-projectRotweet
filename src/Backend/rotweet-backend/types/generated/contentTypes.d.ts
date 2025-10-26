@@ -496,7 +496,7 @@ export interface ApiProfileProfile extends Struct.CollectionTypeSchema {
       'oneToOne',
       'plugin::users-permissions.user'
     >;
-    username: Schema.Attribute.String & Schema.Attribute.Unique;
+    username: Schema.Attribute.String;
   };
 }
 
