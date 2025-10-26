@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import CustomButton from '../Components/CustomButton';
 import globalStyles, { colors } from '../Styles/GlobalStyles';
 import styles from '../Styles/LoginStyles';
+import axios from 'axios';
 
 export default function LoginScreen({ navigation }) {
   const [User, setUser] = useState('');
@@ -16,16 +17,30 @@ export default function LoginScreen({ navigation }) {
     setFormValid(isValid);
   }, [User, Password]);
 
-  const handleSave = () => {
-    if (!formValid) {
-      Alert.alert('Error', 'Por favor, complete todos los campos.', [
-        { text: 'OK' },
-      ]);
-      return;
-    }
+const handleSave = async () => {
+  if (!formValid) {
+    Alert.alert('Error', 'Por favor, complete todos los campos.', [{ text: 'OK' }]);
+    return;
+  }
 
-    navigation.navigate('Home');
-  };
+  try {
+    const response = await axios.post('http://192.168.1.9:1337/api/auth/local', {
+      identifier: User, // puede ser username o email según config de Strapi
+      password: Password,
+    });
+
+    const { jwt, user } = response.data;
+
+    Alert.alert('Bienvenido', `Hola ${user.username}!`);
+    console.log('Token:', jwt);
+
+    navigation.navigate('Home', { user });
+  } catch (error) {
+    console.error(error);
+    Alert.alert('Error', 'Usuario o contraseña incorrectos.');
+  }
+};
+
   return (
     <View style={[globalStyles.container, globalStyles.centered]}>
        <Image
